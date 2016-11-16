@@ -20,11 +20,13 @@ extern keymap_config_t keymap_config;
 #define _POWER 3
 #define _FUNCTION 4
 
-enum planck_keycodes {
-  QWERTY = SAFE_RANGE,
-  LOWER,
-  RAISE,
-  EXT_PLV,
+enum layouts {
+  QWERTY,
+  TYPING,
+  NUMS,
+  SYMBOLS,
+  FUNC,
+  POWER,
 };
 
 enum functions {
@@ -104,12 +106,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * | Brite| Ctrl | Alt  | GUI  |Lower |    Space    |Raise | Left | Down |  Up  |Right |
  * `-----------------------------------------------------------------------------------'
  */
-[0] = {
+[QWERTY] = {
   {KC_TAB,       KC_Q,           KC_W,    KC_E,    KC_R,             KC_T,        KC_Y,        KC_U,             KC_I,    KC_O,    KC_P,    KC_BSPC  },
   {F(ULTRA_KEY), KC_A,           KC_S,    KC_D,    KC_F,             KC_G,        KC_H,        KC_J,             KC_K,    KC_L,    KC_SCLN, KC_QUOT  },
   {KC_LSFT,      KC_Z,           KC_X,    KC_C,    KC_V,             KC_B,        KC_N,        KC_M,             KC_COMM, KC_DOT,  KC_SLSH, F(S_ENT) },
-  {TG(3),   OSL(4), KC_LALT, KC_LGUI, LT(1, KC_LBRC),   F(GUI_SPC),  F(GUI_SPC),  LT(2, KC_RBRC),   KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT }
+  {TG(POWER),   OSL(FUNC), TG(TYPING), KC_LALT, LT(SYMBOLS, KC_LBRC),   F(GUI_SPC),  F(GUI_SPC),  LT(NUMS, KC_RBRC),   KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT }
 },
+
+
+/* Qwerty ,-----------------------------------------------------------------------------------.  | Tab  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * | Esc  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |  "   |
+ * |------+------+------+------+------+------|------+------+------+------+------+------|
+ * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * | Brite| Ctrl | Alt  | GUI  |Lower |    Space    |Raise | Left | Down |  Up  |Right |
+ * `-----------------------------------------------------------------------------------'
+ */
+[TYPING] = {
+  {_______,       _______,   _______,_______,_______,_______,_______,_______,_______,_______,_______,_______},
+  {_______,_______,       _______,_______,_______,_______,_______,_______,_______,_______,_______,_______},
+  {_______,      _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______ },
+  {_______,  _______, _______, KC_LGUI, _______,   KC_SPC,  KC_SPC,_______,_______,_______,_______,_______}
+},
+
 
 /* Lower
  * ,-----------------------------------------------------------------------------------.
@@ -122,7 +142,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
-[1] = {
+[SYMBOLS] = {
   {KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_PLUS, KC_LCBR, KC_RCBR, KC_RPRN, M(TERM)},
   {KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_EQL,  KC_MINS, KC_LPRN, KC_RPRN, KC_RCBR, KC_BSLS},
   {_______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,S(KC_NUHS),S(KC_NUBS),_______, _______, _______},
@@ -140,7 +160,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |      _      |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
-[2] = {
+[NUMS] = {
   {KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_CIRC, KC_PERC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,  KC_BSPC},
   {KC_TILD, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_PIPE},
   {_______, F(S_1),  F(S_2),  F(S_3),  F(S_4),  F(S_5),  F(S_6),  F(S_7),  F(S_8),  F(S_9),  F(S_0),   F(2)},
@@ -158,7 +178,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |      _      |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
-[3] = {
+[POWER] = {
   {KC_ESC,  KC_1,   KC_2,  KC_3,  KC_DLR,  KC_INS,  KC_HOME, KC_TAB,  KC_UP,   KC_ENT,   _______, KC_BSPC},
   {KC_ASTR, KC_4,   KC_5,  KC_6,  KC_PLUS, KC_PGDN, KC_PGUP, KC_LEFT, KC_DOWN, KC_RIGHT, KC_0,    KC_PIPE},
   {KC_SLSH, KC_7,   KC_8,  KC_9,  KC_MINS, KC_END,  KC_DEL,  KC_NUHS, KC_NUBS, _______,  _______, F(2)},
@@ -176,11 +196,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |      _      |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
-[4] = {
+[FUNC] = {
   {_______, _______,        _______, _______, _______, _______, _______,  _______, _______,  _______, _______, _______},
   { KC_F1,  KC_F2,          KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,    KC_F8,   KC_F9,    KC_F10,  KC_F11,  KC_F12},
   {_______, _______,        _______, _______, _______, _______, _______,  _______, _______,  _______, _______, _______},
-  {_______, OSL(4), _______, _______, _______, _______, _______,  _______, _______,  _______, _______, _______}
+  {_______, OSL(FUNC), _______, _______, _______, _______, _______,  _______, _______,  _______, _______, _______}
 },
 };
 

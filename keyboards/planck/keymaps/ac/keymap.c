@@ -15,12 +15,11 @@ extern keymap_config_t keymap_config;
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
 #define _QWERTY 0
-#define _COLEMAK 1
-#define _DVORAK 2
-#define _LOWER 3
-#define _RAISE 4
-#define _POWER 5
-#define _FUNCTION 6
+#define _LOWER 1
+#define _RAISE 2
+#define _POWER 3
+#define _FUNCTION 4
+
 enum planck_keycodes {
   QWERTY = SAFE_RANGE,
   LOWER,
@@ -28,17 +27,45 @@ enum planck_keycodes {
   EXT_PLV,
 };
 
+enum functions {
+  ULTRA_KEY,
+  S_ENT,
+  GUI_SPC,
+  S_1,
+  S_2,
+  S_3,
+  S_4,
+  S_5,
+  S_6,
+  S_7,
+  S_8,
+  S_9,
+  S_0,
+};
+
 enum macros {
   S_SPC,
+  TERM,
+  TEST,
 };
 // Fillers to make layering more clear
 #define _______ KC_TRNS
 #define XXXXXXX KC_NO
 
 const uint16_t PROGMEM fn_actions[] = {
-  [1] = ACTION_MODS_TAP_KEY(MOD_LCTL, KC_ESC),
-  [2] = ACTION_MODS_TAP_KEY(MOD_RSFT, KC_ENT),
-  [3] = ACTION_MODS_TAP_KEY(MOD_RGUI, KC_SPC),
+  [ULTRA_KEY] = ACTION_MODS_TAP_KEY(MOD_LCTL, KC_ESC),
+  [S_ENT] = ACTION_MODS_TAP_KEY(MOD_RSFT, KC_ENT),
+  [GUI_SPC] = ACTION_MODS_TAP_KEY(MOD_RGUI, KC_SPC),
+  [S_1] = ACTION_MODS_KEY(MOD_LGUI, KC_1),
+  [S_2] = ACTION_MODS_KEY(MOD_LGUI, KC_2),
+  [S_3] = ACTION_MODS_KEY(MOD_LGUI, KC_3),
+  [S_4] = ACTION_MODS_KEY(MOD_LGUI, KC_4),
+  [S_5] = ACTION_MODS_KEY(MOD_LGUI, KC_5),
+  [S_6] = ACTION_MODS_KEY(MOD_LGUI, KC_6),
+  [S_7] = ACTION_MODS_KEY(MOD_LGUI, KC_7),
+  [S_8] = ACTION_MODS_KEY(MOD_LGUI, KC_8),
+  [S_9] = ACTION_MODS_KEY(MOD_LGUI, KC_9),
+  [S_0] = ACTION_MODS_KEY(MOD_LGUI, KC_0),
 };
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
@@ -50,6 +77,16 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
               return MACRO( D(LGUI),  T(SPC), U(LGUI), END );
           }
           break;
+      case TERM:
+          if (record->event.pressed) {
+              return MACRO( D(LGUI),  D(LALT), D(LCTL), T(T), U(LGUI),  U(LALT), U(LCTL), END );
+          }
+          break;
+      case TEST:
+          if (record->event.pressed) {
+              return MACRO( T(T),END );
+          }
+          break;
   }
 
   return MACRO_NONE;
@@ -58,9 +95,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-/* Qwerty
- * ,-----------------------------------------------------------------------------------.
- * | Tab  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
+/* Qwerty ,-----------------------------------------------------------------------------------.  | Tab  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * | Esc  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |  "   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
@@ -69,11 +104,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * | Brite| Ctrl | Alt  | GUI  |Lower |    Space    |Raise | Left | Down |  Up  |Right |
  * `-----------------------------------------------------------------------------------'
  */
-[_QWERTY] = {
-  {KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC},
-  {F(1),  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT},
-  {KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, F(2) },
-  {TG(_POWER), TG(_FUNCTION), KC_LALT, KC_LGUI, LOWER,   F(3),  F(3),  RAISE,   KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT}
+[0] = {
+  {KC_TAB,       KC_Q,           KC_W,    KC_E,    KC_R,             KC_T,        KC_Y,        KC_U,             KC_I,    KC_O,    KC_P,    KC_BSPC  },
+  {F(ULTRA_KEY), KC_A,           KC_S,    KC_D,    KC_F,             KC_G,        KC_H,        KC_J,             KC_K,    KC_L,    KC_SCLN, KC_QUOT  },
+  {KC_LSFT,      KC_Z,           KC_X,    KC_C,    KC_V,             KC_B,        KC_N,        KC_M,             KC_COMM, KC_DOT,  KC_SLSH, F(S_ENT) },
+  {TG(3),   OSL(4), KC_LALT, KC_LGUI, LT(1, KC_LBRC),   F(GUI_SPC),  F(GUI_SPC),  LT(2, KC_RBRC),   KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT }
 },
 
 /* Lower
@@ -87,11 +122,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
-[_LOWER] = {
-  {KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_PLUS, KC_LBRC, KC_RBRC, KC_RPRN, KC_BSPC},
-  {KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_EQL,  KC_MINS, KC_LCBR, KC_RCBR, KC_RCBR, KC_PIPE},
+[1] = {
+  {KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_PLUS, KC_LCBR, KC_RCBR, KC_RPRN, M(TERM)},
+  {KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_EQL,  KC_MINS, KC_LPRN, KC_RPRN, KC_RCBR, KC_BSLS},
   {_______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,S(KC_NUHS),S(KC_NUBS),_______, _______, _______},
-  {_______, _______, KC_MNXT, KC_MPRV, LOWER, KC_UNDS, KC_UNDS, _______, KC_MPLY, KC_MUTE, KC_VOLD, KC_VOLU}
+  {_______, _______, KC_MNXT, KC_MPRV, _______, M(S_SPC), M(S_SPC), _______, KC_MPLY, KC_MUTE, KC_VOLD, KC_VOLU}
 },
 
 /* Raise
@@ -105,11 +140,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |      _      |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
-[_RAISE] = {
-  {KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_CIRC, KC_PERC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC},
-  {KC_TILD,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,   KC_PIPE},
-  {_______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_NUHS, KC_NUBS, _______, _______, F(2)},
-  {_______, _______, _______, KC_CAPS, LOWER, M(S_SPC), M(S_SPC), RAISE, _______, _______, _______,   _______}
+[2] = {
+  {KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_CIRC, KC_PERC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,  KC_BSPC},
+  {KC_TILD, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_PIPE},
+  {_______, F(S_1),  F(S_2),  F(S_3),  F(S_4),  F(S_5),  F(S_6),  F(S_7),  F(S_8),  F(S_9),  F(S_0),   F(2)},
+  {_______, _______, _______, KC_CAPS, _______, KC_UNDS, KC_UNDS, _______, _______, _______,  _______, _______}
 },
 
 /* POWER
@@ -123,11 +158,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |      _      |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
-[_POWER] = {
-  {KC_GRV,  KC_1, KC_2,   KC_3,  KC_DLR,  KC_CIRC, KC_PERC, KC_AMPR, KC_TAB, KC_UP, KC_ENT, KC_BSPC},
-  {KC_ASTR, KC_4,   KC_5,    KC_6,   KC_PLUS,    KC_PGUP,    KC_PGDN,    KC_LEFT,   KC_DOWN,    KC_RIGHT,    KC_0,   KC_PIPE},
-  {KC_SLSH, KC_7,   KC_8,   KC_9,   KC_MINS,  KC_F11,  KC_F12,  KC_NUHS, KC_NUBS, _______, _______, F(2)},
-  {_______, KC_DOT, KC_0, KC_ENT, _______, KC_UNDS, KC_UNDS, _______, KC_MPLY, KC_MUTE, KC_MNXT, KC_MPRV}
+[3] = {
+  {KC_ESC,  KC_1,   KC_2,  KC_3,  KC_DLR,  KC_INS,  KC_HOME, KC_TAB,  KC_UP,   KC_ENT,   _______, KC_BSPC},
+  {KC_ASTR, KC_4,   KC_5,  KC_6,  KC_PLUS, KC_PGDN, KC_PGUP, KC_LEFT, KC_DOWN, KC_RIGHT, KC_0,    KC_PIPE},
+  {KC_SLSH, KC_7,   KC_8,  KC_9,  KC_MINS, KC_END,  KC_DEL,  KC_NUHS, KC_NUBS, _______,  _______, F(2)},
+  {_______, KC_DOT, KC_0, KC_ENT, _______, KC_UNDS, KC_UNDS, _______, KC_MPLY, KC_MUTE,  KC_MNXT, KC_MPRV}
 },
 
 /* POWER
@@ -141,11 +176,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |      _      |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
-[_FUNCTION] = {
-  {KC_GRV,  KC_1, KC_2,   KC_3,  KC_DLR,  KC_CIRC, KC_PERC, KC_AMPR, KC_INS, KC_HOME, KC_END, KC_DEL},
-  { KC_F1,    KC_F2,    KC_F3,    KC_F4,   KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11, KC_F12},
-  {KC_7,   KC_8,   KC_9,   KC_MINS,  KC_F11,  KC_F12, _______,  _______, _______, _______, _______, _______},
-  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}
+[4] = {
+  {_______, _______,        _______, _______, _______, _______, _______,  _______, _______,  _______, _______, _______},
+  { KC_F1,  KC_F2,          KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,    KC_F8,   KC_F9,    KC_F10,  KC_F11,  KC_F12},
+  {_______, _______,        _______, _______, _______, _______, _______,  _______, _______,  _______, _______, _______},
+  {_______, OSL(4), _______, _______, _______, _______, _______,  _______, _______,  _______, _______, _______}
 },
 };
 
@@ -171,50 +206,50 @@ void persistent_default_layer_set(uint16_t default_layer){
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case  QWERTY:
-      if (record->event.pressed) {
+  /*switch (keycode) {*/
+    /*case  QWERTY:*/
+      /*if (record->event.pressed) {*/
 
-        #ifdef AUDIO_ENABLE
-          PLAY_NOTE_ARRAY(tone_qwerty, false, 0);
-        #endif
-        persistent_default_layer_set(1UL<<_QWERTY);
-        layer_off(_POWER);
-        layer_on(_QWERTY);
-        update_tri_layer(_LOWER, _RAISE, _POWER);
-      }
-      return false;
-      break;
-    case KC_CAPS:
-      if(caps_lock==true) {
-          caps_lock=false;
-          PLAY_NOTE_ARRAY(tone_colemak, false, 0);
-      } else {
-          caps_lock=true;
-          PLAY_NOTE_ARRAY(tone_goodbye, false, 0);
-      }
-      break;
-    case LOWER:
-      if (record->event.pressed) {
-        layer_on(_LOWER);
-        update_tri_layer(_LOWER, _RAISE, _POWER);
-      } else {
-        layer_off(_LOWER);
-        update_tri_layer(_LOWER, _RAISE, _POWER);
-      }
-      return false;
-      break;
-    case RAISE:
-      if (record->event.pressed) {
-        layer_on(_RAISE);
-        update_tri_layer(_LOWER, _RAISE, _POWER);
-      } else {
-        layer_off(_RAISE);
-        update_tri_layer(_LOWER, _RAISE, _POWER);
-      }
-      return false;
-      break;
-  }
+        /*#ifdef AUDIO_ENABLE*/
+          /*PLAY_NOTE_ARRAY(tone_qwerty, false, 0);*/
+        /*#endif*/
+        /*persistent_default_layer_set(1UL<<_QWERTY);*/
+        /*layer_off(_POWER);*/
+        /*layer_on(_QWERTY);*/
+        /*update_tri_layer(_LOWER, _RAISE, _POWER);*/
+      /*}*/
+      /*return false;*/
+      /*break;*/
+    /*case KC_CAPS:*/
+      /*if(caps_lock==true) {*/
+          /*caps_lock=false;*/
+          /*PLAY_NOTE_ARRAY(tone_colemak, false, 0);*/
+      /*} else {*/
+          /*caps_lock=true;*/
+          /*PLAY_NOTE_ARRAY(tone_goodbye, false, 0);*/
+      /*}*/
+      /*break;*/
+    /*case LOWER:*/
+      /*if (record->event.pressed) {*/
+        /*layer_on(_LOWER);*/
+        /*update_tri_layer(_LOWER, _RAISE, _POWER);*/
+      /*} else {*/
+        /*layer_off(_LOWER);*/
+        /*update_tri_layer(_LOWER, _RAISE, _POWER);*/
+      /*}*/
+      /*return false;*/
+      /*break;*/
+    /*case RAISE:*/
+      /*if (record->event.pressed) {*/
+        /*layer_on(_RAISE);*/
+        /*update_tri_layer(_LOWER, _RAISE, _POWER);*/
+      /*} else {*/
+        /*layer_off(_RAISE);*/
+        /*update_tri_layer(_LOWER, _RAISE, _POWER);*/
+      /*}*/
+      /*return false;*/
+      /*break;*/
+  /*}*/
   return true;
 }
 

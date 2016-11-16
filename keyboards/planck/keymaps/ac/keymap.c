@@ -166,7 +166,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   {M(TERM), M(PASS), M(EMAL), _______, KC_PERC, _______, KC_ASTR,   KC_PLUS, KC_LCBR, KC_RCBR, _______, _______ },
   {_______, _______, _______, KC_LPRN, KC_RPRN, _______, KC_EQL,    KC_MINS, KC_LPRN, KC_RPRN, _______, KC_BSLS },
   {_______, _______, _______, _______, _______, _______, _______,   KC_SLSH, _______, _______, _______, _______ },
-  {KC_MNXT, KC_MPRV, KC_CAPS, _______, _______, M(S_SPC), M(S_SPC), _______, _______, _______, _______, _______ }
+  {KC_MNXT, KC_MPRV, KC_CAPS, _______, _______, M(S_SPC), M(S_SPC), _______, KC_MPLY, KC_MUTE, KC_VOLD, KC_VOLU }
 },
 
 /* Raise

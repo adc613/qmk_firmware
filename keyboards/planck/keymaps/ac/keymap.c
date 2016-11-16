@@ -14,14 +14,14 @@ extern keymap_config_t keymap_config;
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
-#define _QWERTY 0
+#define _HOME 0
 #define _LOWER 1
 #define _RAISE 2
 #define _POWER 3
 #define _FUNCTION 4
 
 enum layouts {
-  QWERTY,
+  HOME,
   TYPING,
   NUMS,
   SYMBOLS,
@@ -49,6 +49,8 @@ enum macros {
   S_SPC,
   TERM,
   TEST,
+  PASS,
+  EMAL,
 };
 // Fillers to make layering more clear
 #define _______ KC_TRNS
@@ -74,21 +76,31 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
 
   switch(id) {
 
-      case S_SPC:
-          if (record->event.pressed) {
-              return MACRO( D(LGUI),  T(SPC), U(LGUI), END );
-          }
-          break;
-      case TERM:
-          if (record->event.pressed) {
-              return MACRO( D(LGUI),  D(LALT), D(LCTL), T(T), U(LGUI),  U(LALT), U(LCTL), END );
-          }
-          break;
-      case TEST:
-          if (record->event.pressed) {
-              return MACRO( T(T),END );
-          }
-          break;
+    case S_SPC:
+      if (record->event.pressed) {
+          return MACRO( D(LGUI),  T(SPC), U(LGUI), END );
+      }
+      break;
+    case TERM:
+      if (record->event.pressed) {
+          return MACRO( D(LGUI),  D(LALT), D(LCTL), T(T), U(LGUI),  U(LALT), U(LCTL), END );
+      }
+      break;
+    case TEST:
+      if (record->event.pressed) {
+          return MACRO( T(T), END );
+      }
+      break;
+    case PASS:
+      if (record->event.pressed) {
+          return MACRO( I(10), D(LSFT), T(P), T(A), T(4), T(4), U(LSFT),  T(W), T(O), T(R), T(D), END );
+      }
+      break;
+    case EMAL:
+      if (record->event.pressed) {
+          return MACRO( I(10), T(F), T(A), T(K),T(E), D(LSFT), T(2), U(LSFT), T(E), T(M), T(A), T(I), T(L), T(DOT), T(C), T(O), T(M), END );
+      }
+      break;
   }
 
   return MACRO_NONE;
@@ -97,16 +109,18 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-/* Qwerty ,-----------------------------------------------------------------------------------.  | Tab  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
+/* Qwerty
+ *  -----------------------------------------------------------------------------------
+ * | Tab  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Esc  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |  "   |
+ * |U_KEY |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |  "   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
+ * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |S_ENT |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Brite| Ctrl | Alt  | GUI  |Lower |    Space    |Raise | Left | Down |  Up  |Right |
+ * | L_POW|L_FUNC|L_TYPE| ALT  |DN, [ |    Space    |UP, ] | Left | Down |  Up  |Right |
  * `-----------------------------------------------------------------------------------'
  */
-[QWERTY] = {
+[HOME] = {
   {KC_TAB,       KC_Q,           KC_W,    KC_E,    KC_R,             KC_T,        KC_Y,        KC_U,             KC_I,    KC_O,    KC_P,    KC_BSPC  },
   {F(ULTRA_KEY), KC_A,           KC_S,    KC_D,    KC_F,             KC_G,        KC_H,        KC_J,             KC_K,    KC_L,    KC_SCLN, KC_QUOT  },
   {KC_LSFT,      KC_Z,           KC_X,    KC_C,    KC_V,             KC_B,        KC_N,        KC_M,             KC_COMM, KC_DOT,  KC_SLSH, F(S_ENT) },
@@ -114,92 +128,94 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 },
 
 
-/* Qwerty ,-----------------------------------------------------------------------------------.  | Tab  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
+/* Typing
+ *  -----------------------------------------------------------------------------------
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Esc  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |  "   |
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Brite| Ctrl | Alt  | GUI  |Lower |    Space    |Raise | Left | Down |  Up  |Right |
+ * |      |      |      | GUI  |      |    Space    |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
 [TYPING] = {
-  {_______,       _______,   _______,_______,_______,_______,_______,_______,_______,_______,_______,_______},
-  {_______,_______,       _______,_______,_______,_______,_______,_______,_______,_______,_______,_______},
-  {_______,      _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______ },
-  {_______,  _______, _______, KC_LGUI, _______,   KC_SPC,  KC_SPC,_______,_______,_______,_______,_______}
+  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ },
+  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ },
+  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ },
+  {_______, _______, _______, KC_LGUI, _______, KC_SPC,  KC_SPC,  _______, _______, _______, _______, _______ }
 },
 
 
-/* Lower
+/* Symbols
  * ,-----------------------------------------------------------------------------------.
- * |   ~  |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |   *  |   (  |   )  | Bksp |
+ * |M_TERM|M_PASS|M_EMAL|      |   %  |      |   *  |   +  |   {  |   }  |      | Bksp |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Del  |  F1  |  F2  |  F3  |  F4  |  F5  |   6  |   -  |   +  |   {  |   }  |  |   |
+ * |      |      |      |   (  |   )  |      |   =  |   -  |   (  |   )  |      |  \   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |ISO ~ |ISO | |      |      |Enter |
+ * |      |      |      |      |      |      |      |   /  |      |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
+ * |      |      |      |      |      |  M_S_SPC    |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
 [SYMBOLS] = {
-  {KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_PLUS, KC_LCBR, KC_RCBR, KC_RPRN, M(TERM)},
-  {KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_EQL,  KC_MINS, KC_LPRN, KC_RPRN, KC_RCBR, KC_BSLS},
-  {_______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,S(KC_NUHS),S(KC_NUBS),_______, _______, _______},
-  {_______, _______, KC_MNXT, KC_MPRV, _______, M(S_SPC), M(S_SPC), _______, KC_MPLY, KC_MUTE, KC_VOLD, KC_VOLU}
+  {M(TERM), M(PASS), M(EMAL), _______, KC_PERC, _______, KC_ASTR,   KC_PLUS, KC_LCBR, KC_RCBR, _______, _______ },
+  {_______, _______, _______, KC_LPRN, KC_RPRN, _______, KC_EQL,    KC_MINS, KC_LPRN, KC_RPRN, _______, KC_BSLS },
+  {_______, _______, _______, _______, _______, _______, _______,   KC_SLSH, _______, _______, _______, _______ },
+  {KC_MNXT, KC_MPRV, KC_CAPS, _______, _______, M(S_SPC), M(S_SPC), _______, _______, _______, _______, _______ }
 },
 
 /* Raise
  * ,-----------------------------------------------------------------------------------.
- * |   `  |   !  |   @  |   #  |   $  |   ^  |   %  |   &  |   *  |   (  |   )  | bksp |
+ * |  `   |   !  |   @  |   #  |   $  |   ^  |   %  |   &  |   *  |   (  |   )  |      |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |   ~  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  |  |   |
+ * |  ~   |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  |  |   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |ISO # |ISO / |      |      |Enter |
+ * |      |M_S_1 |M_S_2 |M_S_3 |M_S_4 |M_S_5 |M_S_6 |M_S_7 |M_S_8 |M_S_9 |M_S_0 |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      _      |      | Next | Vol- | Vol+ | Play |
+ * |      |      |      |      |      |      _      |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
 [NUMS] = {
-  {KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_CIRC, KC_PERC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,  KC_BSPC},
+  {KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_CIRC, KC_PERC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,  _______},
   {KC_TILD, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_PIPE},
-  {_______, F(S_1),  F(S_2),  F(S_3),  F(S_4),  F(S_5),  F(S_6),  F(S_7),  F(S_8),  F(S_9),  F(S_0),   F(2)},
-  {_______, _______, _______, KC_CAPS, _______, KC_UNDS, KC_UNDS, _______, _______, _______,  _______, _______}
+  {_______, F(S_1),  F(S_2),  F(S_3),  F(S_4),  F(S_5),  F(S_6),  F(S_7),  F(S_8),  F(S_9),  F(S_0),   _______},
+  {_______, _______, _______, KC_CAPS, _______, _______, _______, _______, _______, _______,  _______, _______}
 },
 
 /* POWER
  * ,-----------------------------------------------------------------------------------.
- * |   `  |   !  |   @  |   #  |   $  |   ^  |   %  |   &  |   *  |   (  |   )  | bksp |
+ * |      |      | Tab  |  Up  | Enter|  Ins | Home |      |   1  |   2  |   3  | bksp |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |   ~  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  |  |   |
+ * |      |      | Left | Down | Right| PgDn | PgUp |   *  |   4  |   5  |   6  |  +   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |ISO # |ISO / |      |      |Enter |
+ * |      |      |      |      |      | End  | Del  |   /  |   7  |   9  |   9  |  -   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      _      |      | Next | Vol- | Vol+ | Play |
+ * |      |      |      |      |      |             |      |   .  |   0  | Enter|      |
  * `-----------------------------------------------------------------------------------'
  */
 [POWER] = {
-  {KC_ESC,  KC_1,   KC_2,  KC_3,  KC_DLR,  KC_INS,  KC_HOME, KC_TAB,  KC_UP,   KC_ENT,   _______, KC_BSPC},
-  {KC_ASTR, KC_4,   KC_5,  KC_6,  KC_PLUS, KC_PGDN, KC_PGUP, KC_LEFT, KC_DOWN, KC_RIGHT, KC_0,    KC_PIPE},
-  {KC_SLSH, KC_7,   KC_8,  KC_9,  KC_MINS, KC_END,  KC_DEL,  KC_NUHS, KC_NUBS, _______,  _______, F(2)},
-  {_______, KC_DOT, KC_0, KC_ENT, _______, KC_UNDS, KC_UNDS, _______, KC_MPLY, KC_MUTE,  KC_MNXT, KC_MPRV}
+  {_______, _______,  KC_TAB,  KC_UP,   KC_ENT,  KC_INS,  KC_HOME, _______, KC_1,   KC_2,  KC_3,   KC_BSPC},
+  {_______, _______, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN, KC_PGUP, KC_ASTR, KC_4,   KC_5,  KC_6,   KC_PLUS},
+  {_______, _______, _______, _______, _______,  KC_END,  KC_DEL,  KC_SLSH, KC_7,   KC_8,  KC_9,   KC_MINS},
+  {_______, _______, _______, _______, _______,  _______, _______, _______, KC_ENT, KC_0, KC_DOT,  _______}
 },
 
-/* POWER
+/* Function
  * ,-----------------------------------------------------------------------------------.
- * |   `  |   !  |   @  |   #  |   $  |   ^  |   %  |   &  |   *  |   (  |   )  | bksp |
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |   ~  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  |  |   |
+ * |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |  F7  |  F8  |  F9  | F10  | F11  | F12  |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |ISO # |ISO / |      |      |Enter |
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      _      |      | Next | Vol- | Vol+ | Play |
+ * |      |      |      |      |      |             |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
 [FUNC] = {
-  {_______, _______,        _______, _______, _______, _______, _______,  _______, _______,  _______, _______, _______},
-  { KC_F1,  KC_F2,          KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,    KC_F8,   KC_F9,    KC_F10,  KC_F11,  KC_F12},
-  {_______, _______,        _______, _______, _______, _______, _______,  _______, _______,  _______, _______, _______},
+  {_______, _______,   _______, _______, _______, _______, _______,  _______, _______,  _______, _______, _______},
+  { KC_F1,  KC_F2,     KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,    KC_F8,   KC_F9,    KC_F10,  KC_F11,  KC_F12},
+  {_______, _______,   _______, _______, _______, _______, _______,  _______, _______,  _______, _______, _______},
   {_______, OSL(FUNC), _______, _______, _______, _______, _______,  _______, _______,  _______, _______, _______}
 },
 };
@@ -217,8 +233,6 @@ float music_scale[][2]     = SONG(MUSIC_SCALE_SOUND);
 
 float tone_goodbye[][2] = SONG(GOODBYE_SOUND);
 #endif
-
-static bool caps_lock = false;
 
 void persistent_default_layer_set(uint16_t default_layer){
     eeconfig_update_default_layer(default_layer);

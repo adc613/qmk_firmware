@@ -20,6 +20,10 @@ extern keymap_config_t keymap_config;
 #define _POWER 3
 #define _FUNCTION 4
 
+enum special_keycode {
+  SOUND1=SAFE_RANGE,
+};
+
 enum layouts {
   HOME,
   TYPING,
@@ -180,7 +184,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   {KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_CIRC, KC_PERC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,  _______},
   {KC_TILD, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_PIPE},
   {_______, F(S_1),  F(S_2),  F(S_3),  F(S_4),  F(S_5),  F(S_6),  F(S_7),  F(S_8),  F(S_9),  F(S_0),   _______},
-  {_______, _______, _______, KC_CAPS, _______, _______, _______, _______, _______, _______,  _______, _______}
+  {_______, _______, _______, KC_CAPS, _______, KC_UNDS, KC_UNDS, _______, _______, _______,  _______, _______}
 },
 
 /* POWER
@@ -197,7 +201,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [POWER] = {
   {_______, _______,  KC_TAB,  KC_UP,   KC_ENT,  KC_INS,  KC_HOME, _______, KC_1,   KC_2,  KC_3,   KC_BSPC},
   {_______, _______, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN, KC_PGUP, KC_ASTR, KC_4,   KC_5,  KC_6,   KC_PLUS},
-  {_______, _______, _______, _______, _______,  KC_END,  KC_DEL,  KC_SLSH, KC_7,   KC_8,  KC_9,   KC_MINS},
+  {_______, SOUND1,  _______, _______, _______,  KC_END,  KC_DEL,  KC_SLSH, KC_7,   KC_8,  KC_9,   KC_MINS},
   {_______, _______, _______, _______, _______,  _______, _______, _______, KC_ENT, KC_0, KC_DOT,  _______}
 },
 
@@ -240,50 +244,17 @@ void persistent_default_layer_set(uint16_t default_layer){
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  /*switch (keycode) {*/
-    /*case  QWERTY:*/
-      /*if (record->event.pressed) {*/
+  switch (keycode) {
+    case  SOUND1:
+      if (record->event.pressed) {
 
-        /*#ifdef AUDIO_ENABLE*/
-          /*PLAY_NOTE_ARRAY(tone_qwerty, false, 0);*/
-        /*#endif*/
-        /*persistent_default_layer_set(1UL<<_QWERTY);*/
-        /*layer_off(_POWER);*/
-        /*layer_on(_QWERTY);*/
-        /*update_tri_layer(_LOWER, _RAISE, _POWER);*/
-      /*}*/
-      /*return false;*/
-      /*break;*/
-    /*case KC_CAPS:*/
-      /*if(caps_lock==true) {*/
-          /*caps_lock=false;*/
-          /*PLAY_NOTE_ARRAY(tone_colemak, false, 0);*/
-      /*} else {*/
-          /*caps_lock=true;*/
-          /*PLAY_NOTE_ARRAY(tone_goodbye, false, 0);*/
-      /*}*/
-      /*break;*/
-    /*case LOWER:*/
-      /*if (record->event.pressed) {*/
-        /*layer_on(_LOWER);*/
-        /*update_tri_layer(_LOWER, _RAISE, _POWER);*/
-      /*} else {*/
-        /*layer_off(_LOWER);*/
-        /*update_tri_layer(_LOWER, _RAISE, _POWER);*/
-      /*}*/
-      /*return false;*/
-      /*break;*/
-    /*case RAISE:*/
-      /*if (record->event.pressed) {*/
-        /*layer_on(_RAISE);*/
-        /*update_tri_layer(_LOWER, _RAISE, _POWER);*/
-      /*} else {*/
-        /*layer_off(_RAISE);*/
-        /*update_tri_layer(_LOWER, _RAISE, _POWER);*/
-      /*}*/
-      /*return false;*/
-      /*break;*/
-  /*}*/
+        #ifdef AUDIO_ENABLE
+          PLAY_NOTE_ARRAY(tone_qwerty, false, 0);
+        #endif
+      }
+      return false;
+      break;
+  }
   return true;
 }
 

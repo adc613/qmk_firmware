@@ -19,9 +19,15 @@ extern keymap_config_t keymap_config;
 #define _RAISE 2
 #define _POWER 3
 #define _FUNCTION 4
+// Fillers to make layering more clear
+#define _______ KC_TRNS
+#define XXXXXXX KC_NO
 
 enum special_keycode {
   SOUND1=SAFE_RANGE,
+  SOUND2,
+  SOUND3,
+  SOUND4,
 };
 
 enum layouts {
@@ -29,6 +35,7 @@ enum layouts {
   TYPING,
   NUMS,
   SYMBOLS,
+  T_SYMBOLS,
   FUNC,
   POWER,
 };
@@ -47,6 +54,7 @@ enum functions {
   S_8,
   S_9,
   S_0,
+  TEST_1,
 };
 
 enum macros {
@@ -56,9 +64,6 @@ enum macros {
   PASS,
   EMAL,
 };
-// Fillers to make layering more clear
-#define _______ KC_TRNS
-#define XXXXXXX KC_NO
 
 const uint16_t PROGMEM fn_actions[] = {
   [ULTRA_KEY] = ACTION_MODS_TAP_KEY(MOD_LCTL, KC_ESC),
@@ -74,6 +79,13 @@ const uint16_t PROGMEM fn_actions[] = {
   [S_8] = ACTION_MODS_KEY(MOD_LGUI, KC_8),
   [S_9] = ACTION_MODS_KEY(MOD_LGUI, KC_9),
   [S_0] = ACTION_MODS_KEY(MOD_LGUI, KC_0),
+};
+
+enum {
+  BSPC1  = 0,
+  BSPC2,
+  BSPC3,
+  BSPC4,
 };
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
@@ -125,7 +137,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [HOME] = {
-  {KC_TAB,       KC_Q,           KC_W,    KC_E,    KC_R,             KC_T,        KC_Y,        KC_U,             KC_I,    KC_O,    KC_P,    KC_BSPC  },
+  {KC_TAB,       KC_Q,           KC_W,    KC_E,    KC_R,             KC_T,        KC_Y,        KC_U,             KC_I,    KC_O,    KC_P,    TD(BSPC1) },
   {F(ULTRA_KEY), KC_A,           KC_S,    KC_D,    KC_F,             KC_G,        KC_H,        KC_J,             KC_K,    KC_L,    KC_SCLN, KC_QUOT  },
   {KC_LSFT,      KC_Z,           KC_X,    KC_C,    KC_V,             KC_B,        KC_N,        KC_M,             KC_COMM, KC_DOT,  KC_SLSH, F(S_ENT) },
   {TG(POWER),   OSL(FUNC), TG(TYPING), KC_LALT, LT(SYMBOLS, KC_LBRC),   F(GUI_SPC),  F(GUI_SPC),  LT(NUMS, KC_RBRC),   KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT }
@@ -144,10 +156,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [TYPING] = {
-  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ },
-  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ },
-  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ },
-  {_______, _______, _______, KC_LGUI, _______, KC_SPC,  KC_SPC,  _______, _______, _______, _______, _______ }
+  {_______, _______, _______, _______,                       _______, _______, _______, _______, _______, _______, _______, TD(BSPC2) },
+  {_______, _______, _______, _______,                       _______, _______, _______, _______, _______, _______, _______, _______ },
+  {_______, _______, _______, _______,                       _______, _______, _______, _______, _______, _______, _______, _______ },
+  {_______, _______, _______, KC_LGUI, LT(T_SYMBOLS, KC_LBRC), KC_SPC,  KC_SPC,  _______, _______, _______, _______, _______ }
 },
 
 
@@ -163,10 +175,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [SYMBOLS] = {
-  {M(TERM), M(PASS), M(EMAL), _______, KC_PERC, _______, KC_ASTR,   KC_PLUS, KC_LCBR, KC_RCBR, _______, _______ },
-  {_______, _______, _______, KC_LPRN, KC_RPRN, _______, KC_EQL,    KC_MINS, KC_LPRN, KC_RPRN, _______, KC_BSLS },
+  {M(TERM), M(PASS), M(EMAL), _______, KC_PERC, _______, KC_ASTR,   KC_PLUS, _______, _______, _______, _______ },
+  {_______, _______, _______, KC_LPRN, KC_RPRN, _______, KC_EQL,    KC_MINS, KC_LCBR, KC_RCBR, _______, KC_BSLS },
   {_______, _______, _______, _______, _______, _______, _______,   KC_SLSH, _______, _______, _______, _______ },
   {KC_MNXT, KC_MPRV, KC_CAPS, _______, _______, M(S_SPC), M(S_SPC), _______, KC_MPLY, KC_MUTE, KC_VOLD, KC_VOLU }
+},
+
+/* Typing Symbols
+ * ,-----------------------------------------------------------------------------------.
+ * |M_TERM|M_PASS|M_EMAL|      |   %  |      |   *  |   +  |   {  |   }  |      | Bksp |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * |      |      |      |   (  |   )  |      |   =  |   -  |   (  |   )  |      |  \   |
+ * |------+------+------+------+------+------|------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      |   /  |      |      |      |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      |      |      |      |      |  M_S_SPC    |      |      |      |      |      |
+ * `-----------------------------------------------------------------------------------'
+ */
+[T_SYMBOLS] = {
+  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______ },
+  {_______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, _______ },
+  {_______, _______, _______, _______, _______, KC_EQL,  _______, KC_MINS, _______, _______,  _______, _______ },
+  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______ }
 },
 
 /* Raise
@@ -199,9 +229,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [POWER] = {
-  {_______, _______,  KC_TAB,  KC_UP,   KC_ENT,  KC_INS,  KC_HOME, _______, KC_1,   KC_2,  KC_3,   KC_BSPC},
+  {_______, _______,  KC_TAB,  KC_UP,   KC_ENT,  KC_INS,  KC_HOME, _______, KC_1,   KC_2,  KC_3,   TD(BSPC3)},
   {_______, _______, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN, KC_PGUP, KC_ASTR, KC_4,   KC_5,  KC_6,   KC_PLUS},
-  {_______, SOUND1,  _______, _______, _______,  KC_END,  KC_DEL,  KC_SLSH, KC_7,   KC_8,  KC_9,   KC_MINS},
+  {_______, SOUND1,  SOUND2, SOUND3, SOUND4,  KC_END,  KC_DEL,  KC_SLSH, KC_7,   KC_8,  KC_9,   KC_MINS},
   {_______, _______, _______, _______, _______,  _______, _______, _______, KC_ENT, KC_0, KC_DOT,  _______}
 },
 
@@ -217,7 +247,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [FUNC] = {
-  {_______, _______,   _______, _______, _______, _______, _______,  _______, _______,  _______, _______, _______},
+  {_______, _______,   _______, _______, _______, _______, _______,  _______, _______,  _______, _______, TD(BSPC4)},
   { KC_F1,  KC_F2,     KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,    KC_F8,   KC_F9,    KC_F10,  KC_F11,  KC_F12},
   {_______, _______,   _______, _______, _______, _______, _______,  _______, _______,  _______, _______, _______},
   {_______, OSL(FUNC), _______, _______, _______, _______, _______,  _______, _______,  _______, _______, _______}
@@ -249,7 +279,34 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
 
         #ifdef AUDIO_ENABLE
+          PLAY_NOTE_ARRAY(tone_startup, false, 0);
+        #endif
+      }
+      return false;
+      break;
+    case  SOUND2:
+      if (record->event.pressed) {
+
+        #ifdef AUDIO_ENABLE
           PLAY_NOTE_ARRAY(tone_qwerty, false, 0);
+        #endif
+      }
+      return false;
+      break;
+    case  SOUND3:
+      if (record->event.pressed) {
+
+        #ifdef AUDIO_ENABLE
+          PLAY_NOTE_ARRAY(tone_dvorak, false, 0);
+        #endif
+      }
+      return false;
+      break;
+    case  SOUND4:
+      if (record->event.pressed) {
+
+        #ifdef AUDIO_ENABLE
+          PLAY_NOTE_ARRAY(tone_goodbye, false, 0);
         #endif
       }
       return false;
@@ -288,5 +345,56 @@ void music_scale_user(void)
 {
     PLAY_NOTE_ARRAY(music_scale, false, 0);
 }
+
+void send_sound_1 (qk_tap_dance_state_t *state, void *user_data) {
+    unregister_code (KC_BSPC);
+  if (state->count == 2) {
+    #ifdef AUDIO_ENABLE
+      PLAY_NOTE_ARRAY(tone_qwerty, false, 0);
+    #endif
+  }
+}
+
+void send_sound_2 (qk_tap_dance_state_t *state, void *user_data) {
+    unregister_code (KC_BSPC);
+  if (state->count == 2) {
+    #ifdef AUDIO_ENABLE
+      PLAY_NOTE_ARRAY(tone_dvorak, false, 0);
+    #endif
+  }
+}
+
+void send_sound_3 (qk_tap_dance_state_t *state, void *user_data) {
+    unregister_code (KC_BSPC);
+  if (state->count == 2) {
+    #ifdef AUDIO_ENABLE
+      PLAY_NOTE_ARRAY(tone_colemak, false, 0);
+    #endif
+  }
+}
+
+void send_sound_4 (qk_tap_dance_state_t *state, void *user_data) {
+    unregister_code (KC_BSPC);
+  if (state->count == 2) {
+    #ifdef AUDIO_ENABLE
+      PLAY_NOTE_ARRAY(tone_plover, false, 0);
+    #endif
+  }
+}
+
+void send_back_space (qk_tap_dance_state_t *state, void *user_data) {
+    unregister_code (KC_BSPC);
+    register_code (KC_BSPC);
+}
+
+//Tap Dance Definitions
+qk_tap_dance_action_t tap_dance_actions[] = {
+  //Tap once for Esc, twice for Caps Lock
+  [BSPC1]  = ACTION_TAP_DANCE_FN_ADVANCED(send_back_space, NULL, send_sound_1),
+  [BSPC2]  = ACTION_TAP_DANCE_FN_ADVANCED(send_back_space, NULL, send_sound_2),
+  [BSPC3]  = ACTION_TAP_DANCE_FN_ADVANCED(send_back_space, NULL, send_sound_3),
+  [BSPC4]  = ACTION_TAP_DANCE_FN_ADVANCED(send_back_space, NULL, send_sound_4),
+// Other declarations would go here, separated by commas, if you have them
+};
 
 #endif

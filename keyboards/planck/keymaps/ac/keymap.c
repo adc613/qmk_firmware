@@ -63,6 +63,7 @@ enum macros {
   TEST,
   PASS,
   EMAL,
+  DCON,
 };
 
 const uint16_t PROGMEM fn_actions[] = {
@@ -100,6 +101,11 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
     case TERM:
       if (record->event.pressed) {
           return MACRO( D(LGUI),  D(LALT), D(LCTL), T(T), U(LGUI),  U(LALT), U(LCTL), END );
+      }
+      break;
+    case DCON:
+      if (record->event.pressed) {
+          return MACRO( D(LGUI), D(LALT), T(I), U(LALT), U(LGUI), END );
       }
       break;
     case TEST:
@@ -159,7 +165,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   {_______, _______, _______, _______,                       _______, _______, _______, _______, _______, _______, _______, TD(BSPC2) },
   {_______, _______, _______, _______,                       _______, _______, _______, _______, _______, _______, _______, _______ },
   {_______, _______, _______, _______,                       _______, _______, _______, _______, _______, _______, _______, _______ },
-  {_______, _______, _______, KC_LGUI, LT(T_SYMBOLS, KC_LBRC), KC_SPC,  KC_SPC,  _______, _______, _______, _______, _______ }
+  {_______, _______, _______, KC_LGUI, LT(SYMBOLS, KC_LBRC), KC_SPC,  KC_SPC,  _______, _______, _______, _______, _______ }
 },
 
 
@@ -176,7 +182,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [SYMBOLS] = {
   {M(TERM), M(PASS), M(EMAL), _______, KC_PERC, _______, KC_ASTR,   KC_PLUS, _______, _______, _______, _______ },
-  {_______, _______, _______, KC_LPRN, KC_RPRN, _______, KC_EQL,    KC_MINS, KC_LCBR, KC_RCBR, _______, KC_BSLS },
+  {_______, M(DCON), _______, KC_LPRN, KC_RPRN, _______, KC_EQL,    KC_MINS, KC_LCBR, KC_RCBR, _______, KC_BSLS },
   {_______, _______, _______, _______, _______, _______, _______,   KC_SLSH, _______, _______, _______, _______ },
   {KC_MNXT, KC_MPRV, KC_CAPS, _______, _______, M(S_SPC), M(S_SPC), _______, KC_MPLY, KC_MUTE, KC_VOLD, KC_VOLU }
 },
@@ -194,7 +200,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [T_SYMBOLS] = {
   {M(TERM), M(PASS), M(EMAL), _______, KC_PERC, _______, KC_ASTR, KC_PLUS, _______, _______, _______, _______ },
-  {_______, _______, _______, KC_LPRN, KC_RPRN, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, _______ },
+  {_______, M(DCON), _______, KC_LPRN, KC_RPRN, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, _______ },
   {_______, _______, _______, _______, KC_EQL,  _______, _______,  KC_MINS, _______, _______, _______, _______ },
   {KC_MNXT, KC_MPRV, KC_CAPS, _______, _______, M(S_SPC), M(S_SPC), _______, KC_MPLY, KC_MUTE, KC_VOLD, KC_VOLU }
 },
@@ -229,9 +235,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [POWER] = {
-  {_______, _______,  KC_TAB,  KC_UP,   KC_ENT,  KC_INS,  KC_HOME, _______, KC_1,   KC_2,  KC_3,   TD(BSPC3)},
+  {_______, _______, KC_TAB,  KC_UP,   KC_ENT,   KC_INS,  KC_HOME, _______, KC_7,   KC_8,  KC_9,   TD(BSPC3)},
   {_______, _______, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGDN, KC_PGUP, KC_ASTR, KC_4,   KC_5,  KC_6,   KC_PLUS},
-  {_______, SOUND1,  SOUND2, SOUND3, SOUND4,  KC_END,  KC_DEL,  KC_SLSH, KC_7,   KC_8,  KC_9,   KC_MINS},
+  {_______, SOUND1,  SOUND2,  SOUND3,  SOUND4,   KC_END,  KC_DEL,  KC_SLSH, KC_1,   KC_2,  KC_3,   KC_MINS},
   {_______, _______, _______, _______, _______,  _______, _______, _______, KC_ENT, KC_0, KC_DOT,  _______}
 },
 

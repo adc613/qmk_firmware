@@ -44,16 +44,16 @@ enum functions {
   ULTRA_KEY,
   S_ENT,
   GUI_SPC,
-  S_1,
-  S_2,
-  S_3,
-  S_4,
-  S_5,
-  S_6,
-  S_7,
-  S_8,
-  S_9,
-  S_0,
+  S_1a,
+  S_2a,
+  S_3a,
+  S_4a,
+  S_5a,
+  S_6a,
+  S_7a,
+  S_8a,
+  S_9a,
+  S_0a,
   TEST_1,
 };
 
@@ -70,16 +70,16 @@ const uint16_t PROGMEM fn_actions[] = {
   [ULTRA_KEY] = ACTION_MODS_TAP_KEY(MOD_LCTL, KC_ESC),
   [S_ENT] = ACTION_MODS_TAP_KEY(MOD_RSFT, KC_ENT),
   [GUI_SPC] = ACTION_MODS_TAP_KEY(MOD_RGUI, KC_SPC),
-  [S_1] = ACTION_MODS_KEY(MOD_LGUI, KC_1),
-  [S_2] = ACTION_MODS_KEY(MOD_LGUI, KC_2),
-  [S_3] = ACTION_MODS_KEY(MOD_LGUI, KC_3),
-  [S_4] = ACTION_MODS_KEY(MOD_LGUI, KC_4),
-  [S_5] = ACTION_MODS_KEY(MOD_LGUI, KC_5),
-  [S_6] = ACTION_MODS_KEY(MOD_LGUI, KC_6),
-  [S_7] = ACTION_MODS_KEY(MOD_LGUI, KC_7),
-  [S_8] = ACTION_MODS_KEY(MOD_LGUI, KC_8),
-  [S_9] = ACTION_MODS_KEY(MOD_LGUI, KC_9),
-  [S_0] = ACTION_MODS_KEY(MOD_LGUI, KC_0),
+  [S_1a] = ACTION_MODS_KEY(MOD_LGUI, KC_1),
+  [S_2a] = ACTION_MODS_KEY(MOD_LGUI, KC_2),
+  [S_3a] = ACTION_MODS_KEY(MOD_LGUI, KC_3),
+  [S_4a] = ACTION_MODS_KEY(MOD_LGUI, KC_4),
+  [S_5a] = ACTION_MODS_KEY(MOD_LGUI, KC_5),
+  [S_6a] = ACTION_MODS_KEY(MOD_LGUI, KC_6),
+  [S_7a] = ACTION_MODS_KEY(MOD_LGUI, KC_7),
+  [S_8a] = ACTION_MODS_KEY(MOD_LGUI, KC_8),
+  [S_9a] = ACTION_MODS_KEY(MOD_LGUI, KC_9),
+  [S_0a] = ACTION_MODS_KEY(MOD_LGUI, KC_0),
 };
 
 enum {
@@ -123,6 +123,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
           return MACRO( I(10), T(F), T(A), T(K),T(E), D(LSFT), T(2), U(LSFT), T(E), T(M), T(A), T(I), T(L), T(DOT), T(C), T(O), T(M), END );
       }
       break;
+
   }
 
   return MACRO_NONE;
@@ -171,20 +172,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Symbols
  * ,-----------------------------------------------------------------------------------.
- * |M_TERM|M_PASS|M_EMAL|      |   %  |      |   *  |   +  |   {  |   }  |      | Bksp |
+ * |M_TERM|M_PASS|M_EMAL|      |   %  |      |      |   +  |   {  |   }  |      | Bksp |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * |      |      |      |   (  |   )  |      |   =  |   -  |   (  |   )  |      |  \   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |   /  |      |      |      |      |
+ * |      |M_S_1 |M_S_2 |M_S_3 |M_S_4 |M_S_5 |M_S_6 |M_S_7 |M_S_8 |M_S_9 |M_S_0 |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |  M_S_SPC    |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
 [SYMBOLS] = {
-  {M(TERM), M(PASS), M(EMAL), _______, KC_PERC, _______, KC_ASTR,   KC_PLUS, _______, _______, _______, _______ },
+  {M(TERM), M(PASS), M(EMAL), _______, KC_PERC, _______, _______,   KC_PLUS, _______, _______, _______, _______ },
   {_______, M(DCON), _______, KC_LPRN, KC_RPRN, _______, KC_EQL,    KC_MINS, KC_LCBR, KC_RCBR, _______, KC_BSLS },
-  {_______, _______, _______, _______, _______, _______, _______,   KC_SLSH, _______, _______, _______, _______ },
-  {KC_MNXT, KC_MPRV, KC_CAPS, _______, _______, M(S_SPC), M(S_SPC), _______, KC_MPLY, KC_MUTE, KC_VOLD, KC_VOLU }
+  {_______, F(S_1a),  F(S_2a),  F(S_3a),  F(S_4a),  F(S_5a),  F(S_6a),  F(S_7a),  F(S_8a),  F(S_9a),  F(S_0a),   _______},
+  {KC_MPRV, KC_MNXT, KC_CAPS, _______, _______, M(S_SPC), M(S_SPC), _______, KC_MPLY, KC_MUTE, KC_VOLD, KC_VOLU }
 },
 
 /* Typing Symbols
@@ -219,7 +220,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [NUMS] = {
   {KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_CIRC, KC_PERC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,  _______},
   {KC_TILD, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_PIPE},
-  {_______, F(S_1),  F(S_2),  F(S_3),  F(S_4),  F(S_5),  F(S_6),  F(S_7),  F(S_8),  F(S_9),  F(S_0),   _______},
+  {_______, F(S_1a),  F(S_2a),  F(S_3a),  F(S_4a),  F(S_5a),  F(S_6a),  F(S_7a),  F(S_8a),  F(S_9a),  F(S_0a),   _______},
   {_______, _______, _______, KC_CAPS, _______, KC_UNDS, KC_UNDS, _______, _______, _______,  _______, _______}
 },
 

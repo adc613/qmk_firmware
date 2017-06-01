@@ -32,7 +32,7 @@ enum special_keycode {
 
 enum layouts {
   HOME,
-  TYPING,
+  LINUX,
   NUMS,
   SYMBOLS,
   T_SYMBOLS,
@@ -67,6 +67,7 @@ enum macros {
 };
 
 const uint16_t PROGMEM fn_actions[] = {
+  [ULTRA_KEY] = ACTION_MODS_TAP_KEY(MOD_LCTL, KC_ESC),
   [ULTRA_KEY] = ACTION_MODS_TAP_KEY(MOD_LCTL, KC_ESC),
   [S_ENT] = ACTION_MODS_TAP_KEY(MOD_RSFT, KC_ENT),
   [GUI_SPC] = ACTION_MODS_TAP_KEY(MOD_RGUI, KC_SPC),
@@ -147,7 +148,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   {KC_TAB,       KC_Q,           KC_W,    KC_E,    KC_R,             KC_T,        KC_Y,        KC_U,             KC_I,    KC_O,    KC_P,    TD(BSPC1) },
   {F(ULTRA_KEY), KC_A,           KC_S,    KC_D,    KC_F,             KC_G,        KC_H,        KC_J,             KC_K,    KC_L,    KC_SCLN, KC_QUOT  },
   {KC_LSFT,      KC_Z,           KC_X,    KC_C,    KC_V,             KC_B,        KC_N,        KC_M,             KC_COMM, KC_DOT,  KC_SLSH, F(S_ENT) },
-  {TG(POWER),   OSL(FUNC), TG(TYPING), KC_LALT, LT(SYMBOLS, KC_LBRC),   F(GUI_SPC),  F(GUI_SPC),  LT(NUMS, KC_RBRC),   KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT }
+  {TG(LINUX),   TG(POWER), OSL(FUNC), KC_LGUI, LT(SYMBOLS, KC_LBRC),   KC_SPC,  KC_SPC,  LT(NUMS, KC_RBRC),   KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT }
 },
 
 
@@ -162,11 +163,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      | GUI  |      |    Space    |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
-[TYPING] = {
+[LINUX] = {
   {_______, _______, _______, _______,                       _______, _______, _______, _______, _______, _______, _______, TD(BSPC2) },
   {_______, _______, _______, _______,                       _______, _______, _______, _______, _______, _______, _______, _______ },
   {_______, _______, _______, _______,                       _______, _______, _______, _______, _______, _______, _______, _______ },
-  {_______, _______, _______, KC_LGUI, LT(SYMBOLS, KC_LBRC), KC_SPC,  KC_SPC,  _______, _______, _______, _______, _______ }
+  {_______, _______, _______, KC_LALT, _______,  F(GUI_SPC),  F(GUI_SPC),  _______, _______, _______, _______, _______ }
 },
 
 
@@ -357,7 +358,7 @@ void send_sound_1 (qk_tap_dance_state_t *state, void *user_data) {
     unregister_code (KC_BSPC);
   if (state->count == 2) {
     #ifdef AUDIO_ENABLE
-      PLAY_NOTE_ARRAY(tone_qwerty, false, 0);
+      /*PLAY_NOTE_ARRAY(tone_qwerty, false, 0);*/
     #endif
   }
 }
@@ -366,7 +367,7 @@ void send_sound_2 (qk_tap_dance_state_t *state, void *user_data) {
     unregister_code (KC_BSPC);
   if (state->count == 2) {
     #ifdef AUDIO_ENABLE
-      PLAY_NOTE_ARRAY(tone_dvorak, false, 0);
+      /*PLAY_NOTE_ARRAY(tone_dvorak, false, 0);*/
     #endif
   }
 }
@@ -375,7 +376,7 @@ void send_sound_3 (qk_tap_dance_state_t *state, void *user_data) {
     unregister_code (KC_BSPC);
   if (state->count == 2) {
     #ifdef AUDIO_ENABLE
-      PLAY_NOTE_ARRAY(tone_colemak, false, 0);
+      /*PLAY_NOTE_ARRAY(tone_colemak, false, 0);*/
     #endif
   }
 }
@@ -384,7 +385,7 @@ void send_sound_4 (qk_tap_dance_state_t *state, void *user_data) {
     unregister_code (KC_BSPC);
   if (state->count == 2) {
     #ifdef AUDIO_ENABLE
-      PLAY_NOTE_ARRAY(tone_plover, false, 0);
+      /*PLAY_NOTE_ARRAY(tone_plover, false, 0);*/
     #endif
   }
 }

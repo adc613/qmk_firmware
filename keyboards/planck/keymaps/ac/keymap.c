@@ -145,10 +145,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [HOME] = {
-  {KC_TAB,       KC_Q,           KC_W,    KC_E,    KC_R,             KC_T,        KC_Y,        KC_U,             KC_I,    KC_O,    KC_P,    TD(BSPC1) },
-  {F(ULTRA_KEY), KC_A,           KC_S,    KC_D,    KC_F,             KC_G,        KC_H,        KC_J,             KC_K,    KC_L,    KC_SCLN, KC_QUOT  },
-  {KC_LSFT,      KC_Z,           KC_X,    KC_C,    KC_V,             KC_B,        KC_N,        KC_M,             KC_COMM, KC_DOT,  KC_SLSH, F(S_ENT) },
-  {TG(LINUX),   TG(POWER), OSL(FUNC), KC_LGUI, LT(SYMBOLS, KC_LBRC),   KC_SPC,  KC_SPC,  LT(NUMS, KC_RBRC),   KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT }
+  {KC_TAB,       KC_Q,      KC_W,      KC_E,    KC_R,                 KC_T,   KC_Y,   KC_U,              KC_I,    KC_O,    KC_P,    TD(BSPC1)},
+  {F(ULTRA_KEY), KC_A,      KC_S,      KC_D,    KC_F,                 KC_G,   KC_H,   KC_J,              KC_K,    KC_L,    KC_SCLN, KC_QUOT  },
+  {KC_LSFT,      KC_Z,      KC_X,      KC_C,    KC_V,                 KC_B,   KC_N,   KC_M,              KC_COMM, KC_DOT,  KC_SLSH, F(S_ENT) },
+  {TG(LINUX),    TG(POWER), OSL(FUNC), KC_LGUI, LT(SYMBOLS, KC_LBRC), KC_SPC, KC_SPC, LT(NUMS, KC_RBRC), KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT }
 },
 
 
@@ -201,15 +201,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [T_SYMBOLS] = {
-  {M(TERM), M(PASS), M(EMAL), _______, KC_PERC, _______, KC_ASTR, KC_PLUS, _______, _______, _______, _______ },
-  {_______, M(DCON), _______, KC_LPRN, KC_RPRN, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, _______ },
-  {_______, _______, _______, _______, KC_EQL,  _______, _______,  KC_MINS, _______, _______, _______, _______ },
-  {KC_MNXT, KC_MPRV, KC_CAPS, _______, _______, M(S_SPC), M(S_SPC), _______, KC_MPLY, KC_MUTE, KC_VOLD, KC_VOLU }
+  {M(TERM), M(PASS), M(EMAL), _______, KC_PERC, _______,  KC_ASTR,  KC_PLUS, _______, _______,  _______, _______ },
+  {_______, M(DCON), _______, KC_LPRN, KC_RPRN, _______,  KC_LEFT,  KC_DOWN, KC_UP,   KC_RIGHT, _______, _______ },
+  {_______, _______, _______, _______, KC_EQL,  _______,  _______,  KC_MINS, _______, _______,  _______, _______ },
+  {KC_MNXT, KC_MPRV, KC_CAPS, _______, _______, M(S_SPC), M(S_SPC), _______, KC_MPLY, KC_MUTE,  KC_VOLD, KC_VOLU }
 },
 
 /* Raise
  * ,-----------------------------------------------------------------------------------.
- * |  `   |   !  |   @  |   #  |   $  |   ^  |   %  |   &  |   *  |   (  |   )  |      |
+ * |  `   |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |   *  |   (  |   )  |      |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * |  ~   |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  |  |   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
@@ -219,9 +219,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [NUMS] = {
-  {KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_CIRC, KC_PERC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,  _______},
+  {KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,  _______},
   {KC_TILD, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_PIPE},
-  {_______, F(S_1a),  F(S_2a),  F(S_3a),  F(S_4a),  F(S_5a),  F(S_6a),  F(S_7a),  F(S_8a),  F(S_9a),  F(S_0a),   _______},
+  {_______, F(S_1a), F(S_2a), F(S_3a), F(S_4a), F(S_5a), F(S_6a), F(S_7a), F(S_8a), F(S_9a), F(S_0a),  _______},
   {_______, _______, _______, KC_CAPS, _______, KC_UNDS, KC_UNDS, _______, _______, _______,  _______, _______}
 },
 
